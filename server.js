@@ -2,6 +2,9 @@ let express = require("express")
 let app = express()
 let port = process.env.port || 8080
 let mongoose = require("mongoose")
+mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
+ // seed file and init
+
 // setting up public directory
 app.use(express.static("public"))
 //static routes
