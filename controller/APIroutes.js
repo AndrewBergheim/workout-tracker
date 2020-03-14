@@ -1,5 +1,30 @@
 let db = require("../models/Workout")
 let routes = function(app) {
+   
+    // post route for /api/workouts to create workout 
+    app.post("/api/workouts", function(req, res){
+        db.create(req.body, function(err, dat){
+            if (err){
+                throw err
+            } else{
+                console.log(dat)
+                res.json(dat)
+            }
+        })
+        //console.log(data)
+    })
+    
+    // put route for /api/workouts/:id to add exercise to workout 
+    app.put("/api/workouts/:id", function(req, res){
+        let theirId = req.params.id
+        db.updateOne({_id: theirId}, {
+            $push: {
+                exercises: req.body
+            }
+        }).then(function(result){
+            res.json(result)
+        })
+    })
     app.get("/api/workouts/range", function(req, res){
         console.log("Workout get route activated")
         db.find({}, function(err, dat){
@@ -10,44 +35,17 @@ let routes = function(app) {
             res.json(dat)
         })
     })
-    // post route for /api/workouts to create workout 
-    app.post("/api/workouts", function(req, res){
-        console.log("POST ROUTE INIT")
-        let data = req.body
-        if(data){ // check for empty request
-            console.log(data)
-        }
-        //console.log(data)
-    })
-    
-    // put route for /api/workouts/:id to add exercise to workout 
-    app.put("/api/workouts/:id", function(req, res){
-       /*
-        let theirId = req.params.id
-        let data = req
-        console.log(data)
-      
-        db.update({id: theirId}, {
-            $push: {
-                exercises: {
-    
-                }
-            }
-        })
-    */
-        
-    })
-    
+
     // basic get workout request
     app.get("/api/workouts", function(req, res){
         console.log("Workout get route activated")
         
-
-        db.find({}, function(err, dat){
+        db.find({}, function(err, dat){ 
             if (err){
                 console.log(err)
             }
-            console.log(dat.length)
+            //console.log(dat.length)
+            /*
             //loop through each workout, then get stats for each one
             for (let o = 0; o < dat.length;o++){
                 let totalDuration = 0;
@@ -79,6 +77,7 @@ let routes = function(app) {
             console.log(dat[o])   
             }
             console.log("looped")
+            */
             res.json(dat)
         })
     })
