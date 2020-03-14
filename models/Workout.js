@@ -1,16 +1,24 @@
 const mongoose = require("mongoose")
 let Schema = mongoose.Schema
 
-let schema = new Schema({
+let exercises = new Schema({
+    type: {type: String, required: true}, 
+    name: {type: String, required: true},
+    distance: Number,
+    duration: Number,
+    weight: Number,
+    reps: Number,
+    sets: Number,
+})
+
+let WorkoutSchema = new Schema({
     day: {
         type: Date,
         default: Date.now
     },
-    exercises: {
-        type: Array
-    }
+    exercises: [exercises]
 });
 
-let toExport = mongoose.model("Workout", schema)
+let WorkoutModel = mongoose.model("Workout", WorkoutSchema)
 
-module.exports = toExport;
+module.exports = WorkoutModel;
