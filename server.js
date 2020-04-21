@@ -1,10 +1,11 @@
 let express = require("express")
 let app = express()
 let port = process.env.port || 8080
+const path = require("path")
 let db = require("./models/Workout")
 let mongoose = require("mongoose")
-let html = require("./controller/htmlroutes")
-let api = require("./controller/APIroutes")
+let html = require(path.join(__dirname, "/controller/htmlroutes"))
+let api = require(path.join(__dirname, "/controller/APIroutes"))
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", { useNewUrlParser: true });
 // setting up public directory
 app.use(express.static("public"))
